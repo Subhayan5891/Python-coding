@@ -1,0 +1,71 @@
+I have a model which predict 3 nos of output as given below:
+
+y_pred = model.predict([DF_1[['5min_CF_A1', '5min_CF_A2', '5min_CF_A3', '5min_CF_A4']],DF_1[['5min_CF_A5','5min_CF_A6', '5min_CF_A7', '5min_CF_A8']],
+                     DF_1[['5min_CF_A9', '5min_CF_A10', '5min_CF_A11', '5min_CF_A12']], DF_1[['5min_CF_A13', '5min_CF_A14', '5min_CF_A15', '5min_CF_A16']],
+                     DF_1[['5min_CF_B1', '5min_CF_B2', '5min_CF_B3', '5min_CF_B4']],DF_1[['5min_CF_B5','5min_CF_B6', '5min_CF_B7', '5min_CF_B8']],
+                     DF_1[['5min_CF_B9', '5min_CF_B10', '5min_CF_B11', '5min_CF_B12']], DF_1[['5min_CF_B13', '5min_CF_B14', '5min_CF_B15', '5min_CF_B16']],
+                    DF_1[['5min_CF_C1', '5min_CF_C2', '5min_CF_C3', '5min_CF_C4']],DF_1[['5min_CF_C5','5min_CF_C6', '5min_CF_C7', '5min_CF_C8']],
+                     DF_1[['5min_CF_C9', '5min_CF_C10', '5min_CF_C11', '5min_CF_C12']], DF_1[['5min_CF_C13', '5min_CF_C14', '5min_CF_C15', '5min_CF_C16']],
+                    DF_1[['5min_CF_D1', '5min_CF_D2', '5min_CF_D3', '5min_CF_D4']],DF_1[['5min_CF_D5','5min_CF_D6', '5min_CF_D7', '5min_CF_D8']],
+                     DF_1[['5min_CF_D9', '5min_CF_D10', '5min_CF_D11', '5min_CF_D12']], DF_1[['5min_CF_D13', '5min_CF_D14', '5min_CF_D15', '5min_CF_D16']],
+                    DF_1[['ECON_OUTL_FEED_WATER_AVG_5min','FEEDWATER FLOW AT ECO INLET_5min',
+ 'LOAD/FUEL_5min', 'LOAD/AIR_5min', 'AIR FLOW_5min', 'COAL FLOW_5min',
+ 'Top_Mill_load_ratio_5min','Bottom_Mill_load_ratio_5min', 'Middle_Mill_load_ratio_5min',
+ 'Left_Side_Damper_5min', 'Right_Side_Damper_5min','WW_Gain_5min', 'SA_total_air','PA_total_air','WW_Gain_5min','LOAD_CAT_A','LOAD_CAT_B','LOAD_CAT_C','LOAD_CAT_D','LOAD_CAT_E','LOAD_CAT_F',
+ 'LOAD_CAT_G','LOAD_CAT_H','LOAD_CAT_I','LOAD_CAT_J','LOAD_CAT_K','LOAD_CAT_L','comb_000111','comb_001110','comb_001111',
+ 'comb_010111','comb_011010','comb_011011','comb_011100','comb_011101','comb_011110','comb_011111','comb_100111','comb_101100',
+ 'comb_101110','comb_101111','comb_110011','comb_110110','comb_110111','comb_111010','comb_111011','comb_111100','comb_111101',
+ 'comb_111110','comb_111111']]])
+
+I want it to optimize like that - Minimize y[0], Minimize y[1], Minimize y[2], Minimize ((absolute of (y[0]/y[1]))-1)
+
+
+
+Controllable variables :
+
+'5min_CF_A1', '5min_CF_A2', '5min_CF_A3', '5min_CF_A4', '5min_CF_A5','5min_CF_A6', '5min_CF_A7', '5min_CF_A8', 
+'5min_CF_A9', '5min_CF_A10', '5min_CF_A11', '5min_CF_A12', '5min_CF_A13', '5min_CF_A14', '5min_CF_A15', '5min_CF_A16'
+'5min_CF_B1', '5min_CF_B2', '5min_CF_B3', '5min_CF_B4','5min_CF_B5','5min_CF_B6', '5min_CF_B7', '5min_CF_B8',
+'5min_CF_B9', '5min_CF_B10', '5min_CF_B11', '5min_CF_B12', '5min_CF_B13', '5min_CF_B14', '5min_CF_B15', '5min_CF_B16'
+'5min_CF_C1', '5min_CF_C2', '5min_CF_C3', '5min_CF_C4', '5min_CF_C5','5min_CF_C6', '5min_CF_C7', '5min_CF_C8',
+'5min_CF_C9', '5min_CF_C10', '5min_CF_C11', '5min_CF_C12', '5min_CF_C13', '5min_CF_C14', '5min_CF_C15', '5min_CF_C16'
+'5min_CF_D1', '5min_CF_D2', '5min_CF_D3', '5min_CF_D4', '5min_CF_D5','5min_CF_D6', '5min_CF_D7', '5min_CF_D8',
+'5min_CF_D9', '5min_CF_D10', '5min_CF_D11', '5min_CF_D12', '5min_CF_D13', '5min_CF_D14', '5min_CF_D15', '5min_CF_D16'
+'Top_Mill_load_ratio_5min','Bottom_Mill_load_ratio_5min', 'Middle_Mill_load_ratio_5min'
+
+
+Constraints:
+A_ELE = ['5min_CF_A1', '5min_CF_A2', '5min_CF_A3', '5min_CF_A4', '5min_CF_A5','5min_CF_A6', '5min_CF_A7', '5min_CF_A8', 
+'5min_CF_A9', '5min_CF_A10', '5min_CF_A11', '5min_CF_A12', '5min_CF_A13', '5min_CF_A14', '5min_CF_A15', '5min_CF_A16']
+
+B_ELE = ['5min_CF_B1', '5min_CF_B2', '5min_CF_B3', '5min_CF_B4','5min_CF_B5','5min_CF_B6', '5min_CF_B7', '5min_CF_B8',
+'5min_CF_B9', '5min_CF_B10', '5min_CF_B11', '5min_CF_B12', '5min_CF_B13', '5min_CF_B14', '5min_CF_B15', '5min_CF_B16']
+
+C_ELE = ['5min_CF_C1', '5min_CF_C2', '5min_CF_C3', '5min_CF_C4', '5min_CF_C5','5min_CF_C6', '5min_CF_C7', '5min_CF_C8',
+'5min_CF_C9', '5min_CF_C10', '5min_CF_C11', '5min_CF_C12', '5min_CF_C13', '5min_CF_C14', '5min_CF_C15', '5min_CF_C16']
+
+D_ELE = ['5min_CF_D1', '5min_CF_D2', '5min_CF_D3', '5min_CF_D4', '5min_CF_D5','5min_CF_D6', '5min_CF_D7', '5min_CF_D8',
+'5min_CF_D9', '5min_CF_D10', '5min_CF_D11', '5min_CF_D12', '5min_CF_D13', '5min_CF_D14', '5min_CF_D15', '5min_CF_D16']
+
+If sum of the values for A_ELE is greater that 4.5 x 10^7, then all these variable may take the value of zero.
+If sum of the values for B_ELE is greater that 1.5 x 10^7, then all these variable may take the value of zero.
+If sum of the values for C_ELE is greater that 1.5 x 10^7, then all these variable may take the value of zero.
+If sum of the values for D_ELE is greater that 1.5 x 10^7, then all these variable may take the value of zero.
+
+
+Mill_Comb = ['comb_000111','comb_001110','comb_001111',
+ 'comb_010111','comb_011010','comb_011011','comb_011100','comb_011101','comb_011110','comb_011111','comb_100111','comb_101100',
+ 'comb_101110','comb_101111','comb_110011','comb_110110','comb_110111','comb_111010','comb_111011','comb_111100','comb_111101',
+ 'comb_111110','comb_111111']
+
+Check which column has value as 1, get the number of the column name.
+
+Top_Mill = sum of the right two digits
+Bottom_Mill = sum of the left two digits
+Middle_Mill = sum of the middle two digits
+
+
+(Top_Mill*75/'COAL FLOW_5min') >= 'Top_Mill_load_ratio_5min' > (Top_Mill*50/'COAL FLOW_5min')
+(Middle_Mill*75/'COAL FLOW_5min') >= 'Middle_Mill_load_ratio_5min' > (Middle_Mill*50/'COAL FLOW_5min')
+(Bottom_Mill*75/'COAL FLOW_5min') >= 'Bottom_Mill_load_ratio_5min' > (Bottom_Mill*50/'COAL FLOW_5min')
+ 
